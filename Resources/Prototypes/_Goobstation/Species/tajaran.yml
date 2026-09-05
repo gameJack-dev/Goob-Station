@@ -3,7 +3,7 @@
 - type: species
   id: Tajaran
   name: species-name-tajaran
-  roundStart: false
+  roundStart: true
   prototype: MobTajaran
   sprites: MobTajaranSprites
   markingLimits: MobTajaranMarkingLimits

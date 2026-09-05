@@ -185,12 +185,12 @@
     state: icon
   - type: MeleeWeapon
     canWideSwing: false
-    attackRate: 0.7
+    attackRate: 0.9
     damage:
       types:
-        Heat: 10
-        Slash: 4
-        Holy: 10
+        Heat: 14
+        Slash: 6
+        Holy: 20
     soundHit:
       path: /Audio/Weapons/Guns/Hits/energy_meat1.ogg
   - type: IgniteOnMeleeHit # emphasis on FLAMING GIFT!!
@@ -241,11 +241,11 @@
   - type: MeleeWeapon
     animationRotation: -45 # WWDP
     wideAnimationRotation: -135
-    attackRate: 1.5
+    attackRate: 2.3
     damage:
       types:
-        Slash: 9
-        Holy: 10
+        Slash: 12
+        Holy: 20
     soundHit:
       path: /Audio/Weapons/bladeslice.ogg
   - type: ItemRandomizeMovementspeed
@@ -256,9 +256,9 @@
   - type: Execution
     doAfterDuration: 4.0
   - type: Scalpel # Why? Because it's funny. That's why.
-    speed: 0.5
+    speed: 0.6
   - type: BoneSaw
-    speed: 0.5
+    speed: 0.6
   - type: Tag
     tags:
     - ArrythmicKnife
@@ -284,12 +284,12 @@
     attackRate: 3
     damage:
       types:
-        Holy: 6
-        Blunt: 2.5
+        Holy: 25
+        Blunt: 10
     soundHit:
       collection: BoxingHit
   - type: StaminaDamageOnHit
-    damage: 10
+    damage: 20
   - type: Wieldable
   - type: Tag
     tags:
@@ -586,10 +586,10 @@
     attackRate: 4
     damage:
       types:
-        Blunt: 2
-        Slash: 3
-        Structural: 20
-        Holy: 6
+        Blunt: 5
+        Slash: 10
+        Structural: 35
+        Holy: 25
       woundSeverityMultipliers:
         Slash: 2
         Blunt: 2
