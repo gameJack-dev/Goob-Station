@@ -28,7 +28,7 @@
       params:
         variation: 0.250
   - type: StaminaDamageOnHit
-    damage: 75
+    damage: 125
     sound: /Audio/Weapons/egloves.ogg
   - type: UseDelay
   - type: Item

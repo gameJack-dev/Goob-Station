@@ -43,8 +43,8 @@
   - Grab
   - Disarm
   event: !type:JudoThrowPerformedEvent
-  paralyzeTime: 4
-  staminaDamage: 5
+  paralyzeTime: 6
+  staminaDamage: 35
   dropItems: false
   canDoWhileProne: false
 
@@ -57,8 +57,8 @@
   - Disarm
   - Grab
   event: !type:JudoArmbarPerformedEvent
-  paralyzeTime: 5
-  staminaDamage: 10
+  paralyzeTime: 8
+  staminaDamage: 75
   dropItems: true
 
 - type: combo
@@ -70,7 +70,7 @@
   - Disarm
   - Harm
   event: !type:JudoWheelThrowPerformedEvent
-  staminaDamage: 120
+  staminaDamage: 155
 
 # Conflicts with armbar + hugs don't seem to count?, to be implemented later
 #- type: combo
