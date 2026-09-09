@@ -46,6 +46,8 @@ public sealed class CombatMusicSystem : EntitySystem // THIS FILE IS VIBE CODED 
     private static readonly TimeSpan CombatMusicDelay = TimeSpan.FromSeconds(4);
     // Keeps damage-triggered music active this long after the player's most recent damage.
     private static readonly TimeSpan DamageMusicDuration = TimeSpan.FromSeconds(15);
+    // Waits briefly before fading so a quick combat-mode off/on keeps the current track uninterrupted.
+    private static readonly TimeSpan CombatMusicToggleGracePeriod = TimeSpan.FromSeconds(2);
     // Takes this long to lower the music to silence after combat mode is disabled.
     private const float CombatMusicFadeOutTime = 4f;
     // Lowers the track itself before applying the player's music-volume preference.
@@ -61,6 +63,8 @@ public sealed class CombatMusicSystem : EntitySystem // THIS FILE IS VIBE CODED 
     private TimeSpan? _combatMusicStartTime;
     // Stores when damage-triggered music may fade if the player does not enter combat mode.
     private TimeSpan? _damageMusicEndTime;
+    // Stores when music may fade after combat mode turns off; null means no combat-mode stop is pending.
+    private TimeSpan? _combatMusicStopTime;
     // Stores the playing audio entity so it can be faded, stopped, or have its volume changed.
     private EntityUid? _combatMusicStream;
     // Retains a fading stream so a new damage trigger can stop it before starting another track.
@@ -111,6 +115,17 @@ public sealed class CombatMusicSystem : EntitySystem // THIS FILE IS VIBE CODED 
                 StopCombatMusic(true);
         }
 
+        // Waits through the toggle grace period before fading after combat mode turns off.
+        if (_combatMusicStopTime != null && _timing.CurTime >= _combatMusicStopTime.Value)
+        {
+            // Clears the timer before stopping so this pending stop is handled only once.
+            _combatMusicStopTime = null;
+
+            // Fades only when combat mode stayed disabled for the entire grace period.
+            if (!_combatMode.IsInCombatMode())
+                StopCombatMusic(true);
+        }
+
         // Stops here when there is no delayed combat-mode start, or when its delay has not elapsed yet.
         if (_combatMusicStartTime == null || _timing.CurTime < _combatMusicStartTime.Value)
             return;
@@ -145,16 +160,22 @@ public sealed class CombatMusicSystem : EntitySystem // THIS FILE IS VIBE CODED 
     /// </summary>
     private void OnCombatModeUpdated(bool enabled)
     {
-        // Combat mode was disabled, so cancel a pending start and fade any active track out.
+        // Combat mode was disabled, so cancel a pending start and defer fading any active track briefly.
         if (!enabled)
         {
             // Ends any recent-damage window because the player explicitly left combat mode.
             _damageMusicEndTime = null;
-            // Cancels a pending start and fades any playing stream over two seconds.
-            StopCombatMusic(true);
+            // Cancels a pending start because combat mode did not stay enabled long enough to begin playback.
+            _combatMusicStartTime = null;
+            // Gives a quick off/on enough time to retain the current stream without fading or restarting it.
+            if (_combatMusicStream != null)
+                _combatMusicStopTime = _timing.CurTime + CombatMusicToggleGracePeriod;
             // No combat-on scheduling is needed for this update.
             return;
         }
+
+        // Cancels the delayed fade so the existing track continues when combat mode returns quickly.
+        _combatMusicStopTime = null;
 
         // Ignores duplicate combat-on updates when music is already playing or already scheduled.
         if (_combatMusicStream != null || _combatMusicStartTime != null)
@@ -171,6 +192,8 @@ public sealed class CombatMusicSystem : EntitySystem // THIS FILE IS VIBE CODED 
     {
         // Pushes automatic fade-out ten seconds beyond the most recent hit.
         _damageMusicEndTime = _timing.CurTime + DamageMusicDuration;
+        // Keeps active music alive when damage arrives during a pending combat-mode stop.
+        _combatMusicStopTime = null;
         // Damage should start music immediately instead of waiting on combat mode's delay.
         _combatMusicStartTime = null;
 
@@ -228,6 +251,8 @@ public sealed class CombatMusicSystem : EntitySystem // THIS FILE IS VIBE CODED 
     {
         // Ensures music cannot begin after combat, detachment, restart, or shutdown has ended it.
         _combatMusicStartTime = null;
+        // Cancels any deferred combat-mode stop because this method is now handling the stream directly.
+        _combatMusicStopTime = null;
         // Clears automatic damage expiry during explicit or lifecycle-driven cleanup.
         _damageMusicEndTime = null;
 
