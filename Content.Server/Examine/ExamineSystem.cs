@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MIT
 
 using System.Linq;
+using Content.Shared._Mono.Speech; // Goobstation - Contextual speech
 using Content.Server.Verbs;
 using Content.Shared.Examine;
 using Content.Shared.Verbs;
@@ -66,6 +67,9 @@ namespace Content.Server.Examine
                     request.NetEntity, request.Id, _entityOutOfRangeMessage, knowTarget: false), channel);
                 return;
             }
+
+            var speechEvent = new SpeechTriggerEvent(SpeechTrigger.Examined); // Goobstation - Contextual speech
+            RaiseLocalEvent(entity, ref speechEvent); // Goobstation - Contextual speech
 
             SortedSet<Verb>? verbs = null;
             if (request.GetVerbs)
