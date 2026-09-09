@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-// Lets this system fade normal ambient music out before combat music begins.
+// THIS FILE IS VIBE CODED REFACTOR OR REWRITE LATER WHEN WE HAVE THE GUYS TO DO IT
 using Content.Client.Audio;
 // Provides the ambient-music volume setting used by the rest of the client.
 using Content.Shared.CCVar;
@@ -27,9 +27,9 @@ namespace Content.Client.CombatMode;
 
 /// <summary>
 /// Starts local combat music after the player remains in combat mode for a short time,
-/// then fades that music out when combat mode is disabled.
+/// then fades that music out when combat mode is disabled. 
 /// </summary>
-public sealed class CombatMusicSystem : EntitySystem
+public sealed class CombatMusicSystem : EntitySystem // THIS FILE IS VIBE CODED REFACTOR OR REWRITE LATER WHEN WE HAVE THE GUYS TO DO IT
 {
     // Gives this system the current local player's combat-mode state and change event.
     [Dependency] private readonly CombatModeSystem _combatMode = default!;
@@ -43,15 +43,15 @@ public sealed class CombatMusicSystem : EntitySystem
     [Dependency] private readonly IGameTiming _timing = default!;
 
     // Waits this long before starting music so quick combat-mode taps stay silent.
-    private static readonly TimeSpan CombatMusicDelay = TimeSpan.FromSeconds(3);
+    private static readonly TimeSpan CombatMusicDelay = TimeSpan.FromSeconds(4);
     // Keeps damage-triggered music active this long after the player's most recent damage.
-    private static readonly TimeSpan DamageMusicDuration = TimeSpan.FromSeconds(10);
+    private static readonly TimeSpan DamageMusicDuration = TimeSpan.FromSeconds(15);
     // Takes this long to lower the music to silence after combat mode is disabled.
-    private const float CombatMusicFadeOutTime = 2f;
+    private const float CombatMusicFadeOutTime = 4f;
     // Lowers the track itself before applying the player's music-volume preference.
-    private const float CombatMusicBaseVolume = -8f;
+    private const float CombatMusicBaseVolume = 3f;
     // Matches the fade helper's silent floor so a zero volume setting still fades safely.
-    private const float SilentVolume = -32f;
+    private const float SilentVolume = -15f;
     // Names the YAML sound collection that contains all available combat tracks.
     private const string CombatMusicCollection = "CombatMusic";
     // Lets the audio system randomly resolve one track from the configurable collection per playback.

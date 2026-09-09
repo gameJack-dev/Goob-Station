@@ -1,11 +1,7 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
-# Defines the pool from which each new combat-music playback randomly selects one track.
-- type: soundCollection
-  # Gives client code a stable name for this configurable collection.
+- type: soundCollection #this file is vibecoded but shouldnt have issue since its just a soundcollection
   id: CombatMusic
-  # Add or remove attributed music paths here to change the available combat tracks.
   files:
-    - /Audio/_Goobstation/Music/running_in.ogg
-    - /Audio/_Goobstation/Music/Black_Swarm.ogg
-    - /Audio/_Goobstation/Music/Colonial_Marines_The_Final_Battle.ogg
+    - /Audio/Combatmusic/NCWL_3.ogg
+    - /Audio/Combatmusic/NCWL_4.ogg
