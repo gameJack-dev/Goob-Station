@@ -10,4 +10,9 @@ public sealed partial class ContextualSpeechComponent : Component
 {
     [DataField]
     public Dictionary<SpeechTrigger, ContextualSpeechTrigger> Triggers { get; private set; } = [];
+
+    [DataField] // Goobstation - Contextual speech cooldown
+    public TimeSpan SpeechCooldown = TimeSpan.FromSeconds(5); // Goobstation - Contextual speech cooldown
+
+    public TimeSpan NextSpeechTime = TimeSpan.Zero; // Goobstation - Contextual speech cooldown
 }

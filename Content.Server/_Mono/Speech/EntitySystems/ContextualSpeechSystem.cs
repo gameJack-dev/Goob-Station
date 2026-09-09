@@ -7,9 +7,11 @@ using Content.Shared.Chat;
 using Content.Shared.Dataset;
 using Content.Shared.Hands;
 using Content.Shared.Mobs;
+using Content.Shared.Mobs.Components; // Goobstation - Contextual speech state guard
 using Content.Shared.Throwing;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
+using Robust.Shared.Timing; // Goobstation - Contextual speech cooldown
 
 namespace Content.Server._Mono.Speech.EntitySystems;
 
@@ -21,6 +23,7 @@ public sealed class ContextualSpeechSystem : EntitySystem
     [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
     [Dependency] private readonly IRobustRandom _random = default!;
     [Dependency] private readonly ChatSystem _chat = default!;
+    [Dependency] private readonly IGameTiming _timing = default!; // Goobstation - Contextual speech cooldown
 
     private readonly Dictionary<ProtoId<LocalizedDatasetPrototype>, LocalizedDatasetPrototype> _cachedDatasets = [];
 
@@ -69,6 +72,12 @@ public sealed class ContextualSpeechSystem : EntitySystem
 
     private void OnSpeechTrigger(Entity<ContextualSpeechComponent> entity, ref SpeechTriggerEvent args)
     {
+        if (TryComp<MobStateComponent>(entity, out var mobState) && mobState.CurrentState is MobState.Critical or MobState.Dead) // Goobstation - Contextual speech state guard
+            return; // Goobstation - Contextual speech state guard
+
+        if (entity.Comp.NextSpeechTime > _timing.CurTime) // Goobstation - Contextual speech cooldown
+            return; // Goobstation - Contextual speech cooldown
+
         if (!entity.Comp.Triggers.TryGetValue(args.Trigger, out var trigger))
             return;
 
@@ -87,6 +96,7 @@ public sealed class ContextualSpeechSystem : EntitySystem
             return;
 
         var message = Loc.GetString(_random.Pick(dataset.Values));
+        entity.Comp.NextSpeechTime = _timing.CurTime + entity.Comp.SpeechCooldown; // Goobstation - Contextual speech cooldown
         _chat.TrySendInGameICMessage(entity, message, InGameICChatType.Speak, hideChat: true, ignoreActionBlocker: true);
     }
 
