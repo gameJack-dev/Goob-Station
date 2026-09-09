@@ -25,6 +25,7 @@ using Content.Shared.Whitelist;
 using Robust.Shared.Audio.Systems;
 using Robust.Shared.Prototypes;
 using Content.Goobstation.Common.Ingestion;
+using Content.Shared._Mono.Speech; // Goobstation - Contextual speech
 
 namespace Content.Shared.Nutrition.EntitySystems;
 
@@ -379,6 +380,13 @@ public sealed partial class IngestionSystem : EntitySystem
         RaiseLocalEvent(food, ref afterEv);
 
         _stomach.TryTransferSolution(stomachToUse.Value.Owner, split, stomachToUse);
+
+        if (TryComp(food, out EdibleComponent? edible)) // Goobstation - Contextual speech
+        { // Goobstation - Contextual speech
+            var trigger = edible.Edible == Drink ? SpeechTrigger.Drinking : SpeechTrigger.Eating; // Goobstation - Contextual speech
+            var speechEvent = new SpeechTriggerEvent(trigger); // Goobstation - Contextual speech
+            RaiseLocalEvent(entity.Owner, ref speechEvent); // Goobstation - Contextual speech
+        } // Goobstation - Contextual speech
 
         if (!afterEv.Destroy)
         {
