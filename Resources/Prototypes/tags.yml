@@ -1737,6 +1737,9 @@
 - type: Tag
   id: WeaponShotgunKSK # custom Shotgun
 
+- type: Tag
+  id: WeaponShotgunSPAS12 # custom Shotgun
+
 ## Y ##
 ## Z ##
 # ALPHABETICAL

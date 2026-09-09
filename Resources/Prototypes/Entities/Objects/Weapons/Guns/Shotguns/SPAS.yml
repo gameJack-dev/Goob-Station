@@ -1,0 +1,31 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+- type: entity
+  name: Franchi-SPAS-12
+  parent: [BaseWeaponShotgun, BaseGunWieldable, BaseSecurityContraband]
+  id: WeaponShotgunSPAS12
+  description: famous for it uses in movies  but regardless chambered in 12 gauge full auto
+  components: # intend for Enforcer to have wider choke for semi-auto function
+  - type: Sprite
+    sprite: Objects/Weapons/Guns/Shotguns/spas12.rsi
+  - type: Clothing
+    sprite: Objects/Weapons/Guns/Shotguns/spas12.rsi
+  - type: Item
+    sprite: Objects/Weapons/Guns/Shotguns/spas12.rsi
+    shape: # Goobstation
+    - 0,0,4,1
+  - type: BallisticAmmoProvider
+  - type: GunRequiresWield #remove when inaccuracy on spreads is fixed
+  - type: Gun
+    fireRate: 2
+    autoCycle: true
+    whitelist:
+      tags:
+      - 12GaugeShell
+      - 12GaugeBuckshot
+    capacity: 8
+    proto: 12GaugeBuckshot
+    soundInsert:
+     collection: SPAS12Insert
+    soundGunshot:
+      collection: SPAS12Fire

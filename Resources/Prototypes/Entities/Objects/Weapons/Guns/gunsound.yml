@@ -55,3 +55,22 @@
   - /Audio/Weapons/Guns/MP7/uc_mp7_fire-04.ogg
   - /Audio/Weapons/Guns/MP7/uc_mp7_fire-05.ogg
   - /Audio/Weapons/Guns/MP7/uc_mp7_fire-06.ogg
+
+-  type: soundCollection
+   id: SPAS12Fire
+   files:
+   - /Audio/Weapons/Guns/SPAS12/uc_spas12_fire-01.ogg
+   - /Audio/Weapons/Guns/SPAS12/uc_spas12_fire-02.ogg
+   - /Audio/Weapons/Guns/SPAS12/uc_spas12_fire-03.ogg
+   - /Audio/Weapons/Guns/SPAS12/uc_spas12_fire-04.ogg
+   - /Audio/Weapons/Guns/SPAS12/uc_spas12_fire-05.ogg
+   - /Audio/Weapons/Guns/SPAS12/uc_spas12_fire-06.ogg
+
+- type: soundCollection
+  id: SPAS12Insert
+  files:
+  - /Audio/Weapons/Guns/SPAS12/uc_spas12_shell-insert-01.ogg
+  - /Audio/Weapons/Guns/SPAS12/uc_spas12_shell-insert-02.ogg
+  - /Audio/Weapons/Guns/SPAS12/uc_spas12_shell-insert-03.ogg
+  - /Audio/Weapons/Guns/SPAS12/uc_spas12_shell-insert-04.ogg
+  - /Audio/Weapons/Guns/SPAS12/uc_spas12_shell-insert-05.ogg
